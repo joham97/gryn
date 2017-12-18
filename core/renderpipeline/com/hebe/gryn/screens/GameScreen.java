@@ -2,7 +2,6 @@ package com.hebe.gryn.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.hebe.gryn.Gryn;
@@ -23,8 +22,7 @@ public class GameScreen implements Screen {
 		game.getSpriteBatch().end();
 		
 		game.getShapeRenderer().begin(ShapeType.Filled);
-		game.getShapeRenderer().setColor(Color.RED);
-		game.getShapeRenderer().rect(100, 100, 100, 100);		
+	
 		game.getShapeRenderer().end();
 	}
 
