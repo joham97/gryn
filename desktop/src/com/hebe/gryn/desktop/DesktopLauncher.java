@@ -7,10 +7,10 @@ import com.hebe.gryn.Gryn;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1244;
-		config.height = 700;
-		config.x = 70;
-		config.y = 50;
+		config.width = 2500;
+		config.height = 1440;
+		config.x = 2736/2 - 2500/2;
+		config.y = 1824/2 - 1440/2;
 		new LwjglApplication(new Gryn(), config);
 	}
 }

@@ -7,6 +7,10 @@ import com.hebe.gryn.screens.GameScreen;
 
 public class Gryn extends Game {
 
+	public static final int GAME_WIDTH = 320;
+	public static final int GAME_HEIGHT = 180;
+	public static final String TITLE = "GRYN";
+	
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
 		
