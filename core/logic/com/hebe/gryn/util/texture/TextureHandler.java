@@ -7,9 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 public class TextureHandler {
 
 	private static HashMap<Integer, Texture> textures = new HashMap<Integer, Texture>();
+	private static int idCounter = 0;
 	
-	public static void put(Integer key, Texture texture) {
-		textures.put(key, texture);
+	public static int put(String path) {
+		idCounter++;
+		textures.put(idCounter, new Texture(path));
+		return idCounter;
 	}
 	
 	public static Texture get(Integer key) {

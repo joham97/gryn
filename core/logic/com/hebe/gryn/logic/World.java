@@ -3,40 +3,43 @@ package com.hebe.gryn.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.hebe.gryn.logic.entity.Entity;
-import com.hebe.gryn.logic.entity.tile.Tile;
-import com.hebe.gryn.util.texture.TextureHandler;
+import com.hebe.gryn.logic.entity.Layer;
 
 public class World {
-	
-	public List<List<Entity>> layers;
-	
+
+	private List<Layer> layers;
+
 	public World() {
-		this.layers = new ArrayList<List<Entity>>();
-		
-		TextureHandler.put(0, new Texture("tiles/grasstile.png"));
-		
-		layers.add(new ArrayList<Entity>());
-		layers.get(0).add(new Tile(0, 0, 0));
+		this.layers = new ArrayList<Layer>();
+
+		layers.add(new Layer(false));
 	}
-	
+
+	public Layer getLayer(int layer) {
+		while(layer >= layers.size()) {
+			layers.add(new Layer(false));
+		}
+		return layers.get(layer);
+	}
+
 	public void update(float delta) {
-		for(List<Entity> entities: layers) {
-			for(Entity entity: entities) {
+		for (List<Entity> entities : layers) {
+			for (Entity entity : entities) {
 				entity.update(delta);
 			}
 		}
 	}
 
-	public void render(SpriteBatch batch, ShapeRenderer shape) {
-		for(List<Entity> entities: layers) {
-			for(Entity entity: entities) {
-				entity.draw(batch, shape);
+	public void render(SpriteBatch batch) {
+		batch.begin();
+		for (List<Entity> entities : layers) {
+			for (Entity entity : entities) {
+				entity.draw(batch);
 			}
 		}
+		batch.end();
 	}
-	
+
 }

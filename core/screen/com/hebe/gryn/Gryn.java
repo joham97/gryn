@@ -3,6 +3,7 @@ package com.hebe.gryn;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.hebe.gryn.addons.root.AddonHelper;
 import com.hebe.gryn.screens.GameScreen;
 
 public class Gryn extends Game {
@@ -13,11 +14,16 @@ public class Gryn extends Game {
 	
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
+	
+	private AddonHelper addonHelper;
 		
 	@Override
 	public void create() {	
-		spriteBatch = new SpriteBatch();
-		shapeRenderer = new ShapeRenderer();
+		this.spriteBatch = new SpriteBatch();
+		this.shapeRenderer = new ShapeRenderer();
+
+		this.addonHelper = new AddonHelper();
+		addonHelper.initialization();
 		
 		GameScreen gameScreen = new GameScreen(this);
 		setScreen(gameScreen);
@@ -29,6 +35,10 @@ public class Gryn extends Game {
 	
 	public ShapeRenderer getShapeRenderer() {
 		return shapeRenderer;
+	}
+	
+	public AddonHelper getAddonHelper() {
+		return addonHelper;
 	}
 	
 }
