@@ -13,8 +13,6 @@ public class World {
 
 	public World() {
 		this.layers = new ArrayList<Layer>();
-
-		layers.add(new Layer(false));
 	}
 
 	public Layer getLayer(int layer) {
@@ -25,7 +23,7 @@ public class World {
 	}
 
 	public void update(float delta) {
-		for (List<Entity> entities : layers) {
+		for (Layer entities : layers) {
 			for (Entity entity : entities) {
 				entity.update(delta);
 			}
@@ -33,9 +31,9 @@ public class World {
 	}
 
 	public void render(SpriteBatch batch) {
-		batch.begin();
-		for (List<Entity> entities : layers) {
-			for (Entity entity : entities) {
+		batch.begin();		
+		for (Layer entities : layers) {
+			for (Entity entity : entities) {				
 				entity.draw(batch);
 			}
 		}
