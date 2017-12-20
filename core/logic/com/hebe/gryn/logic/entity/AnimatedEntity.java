@@ -15,6 +15,7 @@ public class AnimatedEntity extends Entity{
 		this.countImages = ((AnimatedTexture)TextureHandler.get(textureID)).getCountImages();
 	}
 	
+	@Override
 	public void update(float delta) {
 		super.update(delta);
 		this.percent += delta;
@@ -24,8 +25,9 @@ public class AnimatedEntity extends Entity{
 	}
 	
 	
+	@Override
 	public void draw(SpriteBatch batch) {
-		((AnimatedTexture)TextureHandler.get(textureID)).draw(batch, x, y, percent);
+		((AnimatedTexture)TextureHandler.get(this.textureID)).draw(batch, this.x - this.offsetX, this.y - this.offsetY, this.percent);
 	}
 	
 }

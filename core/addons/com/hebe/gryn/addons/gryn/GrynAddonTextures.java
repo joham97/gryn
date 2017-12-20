@@ -9,7 +9,8 @@ public enum GrynAddonTextures {
 	WATER("tiles/watertile.png"), 
 	ASPHALT("tiles/asphalt.png"),
 	
-	CULM("entities/grass.png", 7, 0.8f);
+	CULM("entities/grass.png", 7, 0.8f),	
+	TREE("entities/tree.png");
 
 	private int textureID;
 
@@ -22,6 +23,6 @@ public enum GrynAddonTextures {
 	}
 
 	public int getTextureID() {
-		return textureID;
+		return this.textureID;
 	}
 }

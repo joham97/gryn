@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hebe.gryn.Gryn;
+import com.hebe.gryn.hud.HUD;
 import com.hebe.gryn.logic.World;
 
 public class GameScreen implements Screen{
@@ -19,11 +20,15 @@ public class GameScreen implements Screen{
 	
 	private World world;
 	
+	private HUD hud;
+	
 	public GameScreen(Gryn game) {
 		this.game = game;
 
 		this.world = new World();
-		this.game.getAddonHelper().afterWorldInitialization(world);		
+		this.game.getAddonHelper().afterWorldInitialization(this.world);		
+		
+		this.hud = new HUD();
 		
 		this.cam = new OrthographicCamera();
 		this.cam.position.set(Gryn.GAME_WIDTH / 2, Gryn.GAME_HEIGHT / 2, 0);
@@ -33,6 +38,7 @@ public class GameScreen implements Screen{
 
 	private void update(float delta) {
 		this.world.update(delta);
+		this.game.getAddonHelper().update(delta);
 	}
 
 	@Override
@@ -55,10 +61,26 @@ public class GameScreen implements Screen{
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
+		this.game.getSpriteBatch().begin();	
+		
 		this.world.render(this.game.getSpriteBatch());
-
+		this.hud.draw(this.game.getSpriteBatch(), this.game.getFont());
+		
+		this.game.getSpriteBatch().end();
+		
+//		this.game.getShapeRenderer().begin(ShapeType.Filled);
+//		for(Entity e : this.world.getLayer(2)){
+//			this.game.getShapeRenderer().setColor(Color.RED);
+//			this.game.getShapeRenderer().rect(e.getX(), e.getY(), 1, 1);
+//		}
+//		this.game.getShapeRenderer().end();
+		
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
+	}
+	
+	public HUD getHUD() {
+		return this.hud;
 	}
 
 	@Override

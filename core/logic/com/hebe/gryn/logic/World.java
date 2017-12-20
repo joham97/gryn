@@ -16,28 +16,26 @@ public class World {
 	}
 
 	public Layer getLayer(int layer) {
-		while(layer >= layers.size()) {
-			layers.add(new Layer(false));
+		while(layer >= this.layers.size()) {
+			this.layers.add(new Layer(false));
 		}
-		return layers.get(layer);
+		return this.layers.get(layer);
 	}
 
 	public void update(float delta) {
-		for (Layer entities : layers) {
+		for (Layer entities : this.layers) {
 			for (Entity entity : entities) {
 				entity.update(delta);
 			}
 		}
 	}
 
-	public void render(SpriteBatch batch) {
-		batch.begin();		
-		for (Layer entities : layers) {
+	public void render(SpriteBatch batch) {	
+		for (Layer entities : this.layers) {
 			for (Entity entity : entities) {				
 				entity.draw(batch);
 			}
 		}
-		batch.end();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.hebe.gryn;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.hebe.gryn.addons.root.AddonHelper;
@@ -14,6 +15,7 @@ public class Gryn extends Game {
 	
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
+	private BitmapFont font;
 	
 	private AddonHelper addonHelper;
 		
@@ -21,24 +23,31 @@ public class Gryn extends Game {
 	public void create() {	
 		this.spriteBatch = new SpriteBatch();
 		this.shapeRenderer = new ShapeRenderer();
+		this.font = new BitmapFont();
 
 		this.addonHelper = new AddonHelper();
-		addonHelper.initialization();
+		this.addonHelper.initialization();
 		
 		GameScreen gameScreen = new GameScreen(this);
 		setScreen(gameScreen);
+		
+		this.addonHelper.afterScreenSetup(gameScreen);	
 	}
 	
 	public SpriteBatch getSpriteBatch() {
-		return spriteBatch;
+		return this.spriteBatch;
 	}
 	
 	public ShapeRenderer getShapeRenderer() {
-		return shapeRenderer;
+		return this.shapeRenderer;
+	}
+	
+	public BitmapFont getFont() {
+		return this.font;
 	}
 	
 	public AddonHelper getAddonHelper() {
-		return addonHelper;
+		return this.addonHelper;
 	}
 	
 }
