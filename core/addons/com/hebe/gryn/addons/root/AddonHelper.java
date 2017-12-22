@@ -10,12 +10,25 @@ import com.hebe.gryn.screens.GameScreen;
 
 public class AddonHelper implements Lifecycle {
 	
+	public static final Addon[] addonsArray = {
+			new GrynAddon(),
+			new DevAddon()
+	};
+	
 	private List<Addon> addons;
+	private int addonID;
 	
 	public AddonHelper() {
+		this.addonID = 1;
 		this.addons = new LinkedList<Addon>();
-		this.addons.add(new GrynAddon());
-		this.addons.add(new DevAddon());
+		for(Addon addon : addonsArray) {
+			this.add(addon);
+		}
+	}
+	
+	private void add(Addon addon){
+		addon.setAddonID(addonID++);
+		this.addons.add(addon);
 	}
 	
 	@Override

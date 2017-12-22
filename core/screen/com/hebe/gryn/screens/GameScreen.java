@@ -1,3 +1,4 @@
+
 package com.hebe.gryn.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -13,6 +14,9 @@ import com.hebe.gryn.logic.World;
 public class GameScreen implements Screen{
 
 	private Gryn game;
+
+	private OrthographicCamera hudCam;
+	private Viewport hudViewport;
 
 	private OrthographicCamera cam;
 	private Viewport viewport;
@@ -30,9 +34,15 @@ public class GameScreen implements Screen{
 		
 		this.hud = new HUD();
 		
+		this.hudCam = new OrthographicCamera();
+		this.hudCam.position.set(Gryn.GAME_WIDTH / 2, Gryn.GAME_HEIGHT / 2, 0);
+		this.hudViewport = new FitViewport(Gryn.GAME_WIDTH, Gryn.GAME_HEIGHT, this.hudCam);
+		this.hudViewport.apply();
+		
 		this.cam = new OrthographicCamera();
-		this.cam.position.set(Gryn.GAME_WIDTH / 2, Gryn.GAME_HEIGHT / 2, 0);
 		this.viewport = new FitViewport(Gryn.GAME_WIDTH, Gryn.GAME_HEIGHT, this.cam);
+		this.viewport.apply();
+		
 		this.inputHandler = new InputHandler(this.cam, this.viewport);
 	}
 
@@ -46,9 +56,9 @@ public class GameScreen implements Screen{
 		update(delta);
 
 		// Camera Position
-//		this.viewport.getCamera().position.set(0, 0, 0);
-//		this.cam.zoom = 1;
-//		this.viewport.apply();
+		this.viewport.getCamera().position.set(this.world.getCamX(), this.world.getCamY(), 0);
+		this.cam.zoom = 1;
+		this.viewport.apply();
 
 		// Clean Display
 		Gdx.gl.glClearColor(1, 0, 1, 0);
@@ -61,10 +71,10 @@ public class GameScreen implements Screen{
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
+
 		this.game.getSpriteBatch().begin();	
 		
 		this.world.render(this.game.getSpriteBatch());
-		this.hud.draw(this.game.getSpriteBatch(), this.game.getFont());
 		
 		this.game.getSpriteBatch().end();
 		
@@ -74,6 +84,17 @@ public class GameScreen implements Screen{
 //			this.game.getShapeRenderer().rect(e.getX(), e.getY(), 1, 1);
 //		}
 //		this.game.getShapeRenderer().end();
+		
+
+		// Attach Viewport to SpriteBatch and Shaperenderer
+		this.game.getSpriteBatch().setProjectionMatrix(this.hudViewport.getCamera().combined);
+		this.game.getShapeRenderer().setProjectionMatrix(this.hudViewport.getCamera().combined);
+
+		this.game.getSpriteBatch().begin();	
+		
+		this.hud.draw(this.game.getSpriteBatch(), this.game.getFont());
+		
+		this.game.getSpriteBatch().end();
 		
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 

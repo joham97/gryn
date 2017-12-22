@@ -10,7 +10,16 @@ public enum GrynAddonTextures {
 	ASPHALT("tiles/asphalt.png"),
 	
 	CULM("entities/grass.png", 7, 0.8f),	
-	TREE("entities/tree.png");
+	TREE("entities/tree.png"),	
+	FLOWER1("entities/flowers/flower1.png"),	
+	FLOWER2("entities/flowers/flower2.png"),	
+	FLOWER3("entities/flowers/flower3.png"),	
+	FLOWER4("entities/flowers/flower4.png"),	
+	FLOWER5("entities/flowers/flower5.png"),
+	FLOWER6("entities/flowers/flower6.png"),
+	
+	CHILLI("npcs/chilli.png", 4, 0.6f),	
+	GRYN("npcs/gryn.png", 4, 0.6f);
 
 	private int textureID;
 

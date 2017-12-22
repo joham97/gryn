@@ -24,6 +24,14 @@ public class AnimatedTexture extends Texture {
 		batch.draw(this, x, y, width, height, ((int) ((percent / time) * countImages)) * width, 0, width, height, false, false);
 	}
 
+	public void draw(SpriteBatch batch, float x, float y, float percent, int srcX, int srcY, int width, int height) {
+		batch.draw(this, x, y, width, height, srcX + ((int) ((percent / time) * countImages)) * width, srcY, width, height, false, false);
+	}
+	
+	public int getSingleWidth() {
+		return width;
+	}
+
 	public int getCountImages() {
 		return countImages;
 	}
