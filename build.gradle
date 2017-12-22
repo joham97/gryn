@@ -52,7 +52,18 @@ project(":core") {
 
 
     dependencies {
+        compile project(":core")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        
+    }
+}
+
+project(":server") {
+    apply plugin: "java"
+
+
+    dependencies {
+		compile "com.esotericsoftware:kryonet:2.22.0-RC1"
         
     }
 }
