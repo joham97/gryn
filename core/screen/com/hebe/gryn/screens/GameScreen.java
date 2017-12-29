@@ -1,6 +1,9 @@
 
 package com.hebe.gryn.screens;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hebe.gryn.Gryn;
 import com.hebe.gryn.hud.HUD;
 import com.hebe.gryn.logic.World;
+import com.hebe.gryn.networking.GameClient;
 
 public class GameScreen implements Screen{
 
@@ -24,6 +28,8 @@ public class GameScreen implements Screen{
 	
 	private World world;
 	
+	private GameClient gameClient;
+	
 	private HUD hud;
 	
 	public GameScreen(Gryn game) {
@@ -31,6 +37,15 @@ public class GameScreen implements Screen{
 
 		this.world = new World();
 		this.game.getAddonHelper().afterWorldInitialization(this.world);		
+		
+		this.gameClient = new GameClient(this.game.getAddonHelper());
+		try {
+			this.gameClient.open(Gryn.IP, Gryn.TCP, Gryn.UDP);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		this.hud = new HUD();
 		

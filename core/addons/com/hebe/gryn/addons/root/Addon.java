@@ -1,5 +1,6 @@
 package com.hebe.gryn.addons.root;
 
+import com.esotericsoftware.minlog.Log;
 import com.hebe.gryn.logic.World;
 
 public abstract class Addon implements Lifecycle {
@@ -8,7 +9,7 @@ public abstract class Addon implements Lifecycle {
 
 	public void setAddonID(int addonID) {
 		this.addonID = addonID;
-		System.out.println(this.getClass().getSimpleName() + " (ID: " + addonID + ") added");
+		Log.info("addon", this.getClass().getSimpleName() + " (ID: " + addonID + ") added");
 	}
 
 	@Override

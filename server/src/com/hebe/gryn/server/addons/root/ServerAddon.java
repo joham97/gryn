@@ -1,20 +1,24 @@
 package com.hebe.gryn.server.addons.root;
 
-import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.minlog.Log;
+import com.hebe.gryn.server.tech.GameServer;
 
 public abstract class ServerAddon implements ServerLifecycle {
 
 	protected int addonID;
-
+	
+	protected GameServer gameServer;
+	
 	public void setAddonID(int addonID) {
 		this.addonID = addonID;
-		System.out.println(this.getClass().getSimpleName() + " (ID: " + addonID + ") added");
+		Log.info("server", this.getClass().getSimpleName() + " (ID: " + addonID + ") added");
+	}
+	
+	public void setGameServer(GameServer gameServer) {
+		this.gameServer = gameServer;
 	}
 
 	@Override
 	public abstract void initialization();
-
-	@Override
-	public abstract void registerClasses(Kryo kryo);
 
 }

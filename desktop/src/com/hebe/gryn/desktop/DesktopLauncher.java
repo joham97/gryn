@@ -2,19 +2,31 @@ package com.hebe.gryn.desktop;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.esotericsoftware.minlog.Log;
 import com.hebe.gryn.Gryn;
+import com.hebe.gryn.server.ServerStart;
 
 public class DesktopLauncher {
 
 	public static int WIDTH = 1920;
 	public static int HEIGHT = 1080;
-
+	
 	public static void main(String[] arg) {
+		try {
+			ServerStart.main(null);
+		} catch (IOException e) {
+			Log.error("server", e.getMessage());
+		}
+				
 		Toolkit tk = Toolkit.getDefaultToolkit();
 	    Dimension d = tk.getScreenSize();
+
+	    WIDTH = d.width*3/4;
+	    HEIGHT = d.height*3/4;
 		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = WIDTH;

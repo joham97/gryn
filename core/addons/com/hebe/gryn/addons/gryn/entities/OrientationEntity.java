@@ -1,8 +1,8 @@
 package com.hebe.gryn.addons.gryn.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.hebe.gryn.addons.gryn.enums.Orientation;
 import com.hebe.gryn.logic.entity.AnimatedEntity;
+import com.hebe.gryn.server.addons.gryn.enums.Orientation;
 import com.hebe.gryn.util.texture.AnimatedTexture;
 import com.hebe.gryn.util.texture.TextureHandler;
 

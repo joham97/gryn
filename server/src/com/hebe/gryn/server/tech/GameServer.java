@@ -8,87 +8,92 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.hebe.gryn.server.addons.root.ServerAddonHelper;
+import com.hebe.gryn.server.addons.root.ServerNetworkingAddonHelper;
 import com.hebe.gryn.server.addons.root.protocols.Message;
 
 public class GameServer extends Listener {
 
+	public static final int TCP_PORT = 33233;
+	public static final int UDP_PORT = 33234;
+	
+	public static final int writeBufferSize  = 50000;
+	public static final int objectBufferSize = 50000;
+	
 	public static boolean STARTED = false;
 	public static final int SEED = 88;
 
 	public static String IP = "";
 
 	private Server server;
-	private Kryo kryo;
 
 	private HashMap<Integer, String> nicknames;
 
-	private int defaultNicknameCounter = 0;
-	
 	private ServerAddonHelper serverAddonHelper;
+	private ServerNetworkingAddonHelper networkingAddonHelper;
 
 	public GameServer() {
-		serverAddonHelper = new ServerAddonHelper();
-		serverAddonHelper.initialization();
+		this.serverAddonHelper = new ServerAddonHelper(this);
+		this.serverAddonHelper.initialization();
 		this.nicknames = new HashMap<Integer, String>();
-		this.server = new Server(50000, 50000);
+		this.server = new Server(writeBufferSize, objectBufferSize);
 	}
 
 	public void open() throws IOException {
 		this.server.start();
-		this.server.bind(25567, 25566);
-		this.server.addListener(this);
-		this.kryo = this.server.getKryo();
+		this.server.bind(TCP_PORT, UDP_PORT);
 
-		this.kryo.register(Message.class);
-		serverAddonHelper.registerClasses(this.kryo);
+		this.server.getKryo().register(Message.class);
 		
-		this.kryo.register(Message.class);
+		this.networkingAddonHelper = new ServerNetworkingAddonHelper(this);
+		this.serverAddonHelper.registerNetworkingClasses(this.networkingAddonHelper);
+		
+		this.server.addListener(this);
+		
 		STARTED = true;
 	}
 	
 	@Override
 	public void connected(Connection connection) {
-		super.connected(connection);
+		this.nicknames.put(connection.getID(), connection.getRemoteAddressTCP().toString());
+		this.serverAddonHelper.newConnection(connection);
 	}
 	
 	@Override
 	public void disconnected(Connection connection) {
-		super.disconnected(connection);
+		this.nicknames.remove(connection.getID());
 	}
 	
 	@Override
 	public void received(Connection connection, Object object) {
-		super.received(connection, object);
-	}
-
-	// Nickname Management
-	public boolean addNickname(Integer id, String nick) {
-		for (Connection con : this.server.getConnections()) {
-			if (nick.equals(this.nicknames.get(con.getID()))) {
-				return false;
-			}
-		}
-		this.nicknames.put(id, nick);
-		this.defaultNicknameCounter++;
-		return true;
-	}
-
-	public void removeNickname(int id) {
-		this.nicknames.remove(id);
-	}
-
-	// Getter
-	public String getNickname(Integer id) {
-		return this.nicknames.get(id);
-	}
-
-	public int getDefaultNicknameCounter() {
-		return this.defaultNicknameCounter;
-	}
-
-	public Server getServer() {
-		return this.server;
+		this.serverAddonHelper.received(connection, object);
 	}
 	
+	public Kryo getKryo() {
+		return this.server.getKryo();
+	}
+	
+	public void sendToAllExceptTCP(int connectionID, Object object){
+		this.server.sendToAllExceptTCP(connectionID, object);
+	}
+	
+	public void sendToAllExceptUDP(int connectionID, Object object){
+		this.server.sendToAllExceptUDP(connectionID, object);
+	}
+	
+	public void sendToAllTCP(Object object){
+		this.server.sendToAllTCP(object);
+	}
+	
+	public void sendToAllUDP(Object object){
+		this.server.sendToAllUDP(object);
+	}
+	
+	public void sendToTCP(int connectionID, Object object){
+		this.server.sendToTCP(connectionID, object);
+	}
+	
+	public void sendToUDP(int connectionID, Object object){
+		this.server.sendToUDP(connectionID, object);
+	}
 	
 }

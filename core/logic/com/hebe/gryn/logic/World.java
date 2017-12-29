@@ -8,7 +8,7 @@ import com.hebe.gryn.logic.entity.Entity;
 import com.hebe.gryn.logic.entity.Layer;
 
 public class World {
-
+	
 	private List<Layer> layers;
 	
 	private float camX, camY;
@@ -19,26 +19,41 @@ public class World {
 		this.camY = 0;
 	}
 
-	public Layer getLayer(int layer) {
+	public void addToLayer(int layer, Entity entity){
 		while(layer >= this.layers.size()) {
 			this.layers.add(new Layer(false));
 		}
-		return this.layers.get(layer);
+		synchronized (this.layers.get(layer)) {
+			this.layers.get(layer).add(entity);
+		}		
 	}
-
+	
+	public void setLayerSorting(int layer, boolean sorting){
+		while(layer >= this.layers.size()) {
+			this.layers.add(new Layer(false));
+		}
+		synchronized (this.layers.get(layer)) {
+			this.layers.get(layer).setSorting(sorting);
+		}
+	}
+	
 	public void update(float delta) {
 		for (Layer layer : this.layers) {
-			for (Entity entity : layer) {
-				entity.update(delta);
+			synchronized (layer) {
+				for (Entity entity : layer) {
+					entity.update(delta);
+				}
+				layer.sort();
 			}
-			layer.sort();
 		}
 	}
 
 	public void render(SpriteBatch batch) {	
-		for (Layer entities : this.layers) {
-			for (Entity entity : entities) {				
-				entity.draw(batch);
+		for (Layer layer : this.layers) {
+			synchronized (layer) {
+				for (Entity entity : layer) {				
+					entity.draw(batch);
+				}
 			}
 		}
 	}
@@ -49,11 +64,11 @@ public class World {
 	}
 
 	public float getCamX() {
-		return camX;
+		return this.camX;
 	}
 	
 	public float getCamY() {
-		return camY;
+		return this.camY;
 	}
 	
 }
