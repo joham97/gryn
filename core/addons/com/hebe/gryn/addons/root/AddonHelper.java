@@ -6,6 +6,7 @@ import java.util.List;
 import com.hebe.gryn.addons.dev.DevAddon;
 import com.hebe.gryn.addons.gryn.GrynAddon;
 import com.hebe.gryn.logic.World;
+import com.hebe.gryn.networking.NetworkingAddonHelper;
 import com.hebe.gryn.screens.GameScreen;
 
 public class AddonHelper implements Lifecycle {
@@ -17,6 +18,8 @@ public class AddonHelper implements Lifecycle {
 	
 	private List<Addon> addons;
 	private int addonID;
+	
+	private NetworkingAddonHelper networkingAddonHelper;
 	
 	public AddonHelper() {
 		this.addonID = 1;
@@ -57,5 +60,18 @@ public class AddonHelper implements Lifecycle {
 		for(Addon addon : this.addons) {
 			addon.update(delta);
 		}
+	}
+
+	@Override
+	public void registerNetworkingClasses(NetworkingAddonHelper networking) {
+		this.networkingAddonHelper = networking;
+		for(Addon addon : this.addons) {
+			addon.registerNetworkingClasses(networkingAddonHelper);
+		}
+	}
+
+	@Override
+	public void received(Object object) {
+		networkingAddonHelper.received(object);
 	}
 }

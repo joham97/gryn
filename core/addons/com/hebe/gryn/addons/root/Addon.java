@@ -17,4 +17,7 @@ public abstract class Addon implements Lifecycle {
 	@Override
 	public abstract void afterWorldInitialization(World world);
 
+	@Override
+	public abstract void received(Object object);
+
 }

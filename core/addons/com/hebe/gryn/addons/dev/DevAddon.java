@@ -4,6 +4,7 @@ import com.hebe.gryn.addons.dev.fps.FPSCounter;
 import com.hebe.gryn.addons.root.Addon;
 import com.hebe.gryn.hud.components.HUDText;
 import com.hebe.gryn.logic.World;
+import com.hebe.gryn.networking.NetworkingAddonHelper;
 import com.hebe.gryn.screens.GameScreen;
 
 public class DevAddon extends Addon {
@@ -35,6 +36,16 @@ public class DevAddon extends Addon {
 	public void update(float delta) {
 		this.fps.add(delta);
 		this.fpsText.setText("FPS: " + this.fps.getFPS());
+	}
+
+	@Override
+	public void registerNetworkingClasses(NetworkingAddonHelper networking) {
+		
+	}
+
+	@Override
+	public void received(Object object) {
+		
 	}
 
 }
