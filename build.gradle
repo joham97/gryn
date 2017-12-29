@@ -52,7 +52,7 @@ project(":core") {
 
 
     dependencies {
-        compile project(":core")
+        compile project(":server")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         
     }
