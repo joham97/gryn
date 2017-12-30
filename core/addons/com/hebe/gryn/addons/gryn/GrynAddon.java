@@ -11,6 +11,7 @@ import com.hebe.gryn.networking.NetworkingAddonHelper;
 import com.hebe.gryn.screens.GameScreen;
 import com.hebe.gryn.server.addons.gryn.enums.Orientation;
 import com.hebe.gryn.server.addons.gryn.protocols.PlayerPosition;
+import com.hebe.gryn.server.addons.gryn.protocols.PlayerSkin;
 
 public class GrynAddon extends Addon{
 
@@ -34,7 +35,7 @@ public class GrynAddon extends Addon{
 		this.world = world;
 		new HeBeTestWorld(world);
 		
-		this.me = new Player(64, 64, GrynAddonTextures.CHILLI.getTextureID(), world);
+		this.me = new Player(64, 64, GrynAddonTextures.GRYN.getTextureID(), world);
 		this.world.addToLayer(2, this.me);
 	}
 
@@ -57,6 +58,7 @@ public class GrynAddon extends Addon{
 		this.networking = networking;
 		networking.registerClass(PlayerPosition.class, this);
 		networking.registerClass(Orientation.class, this);
+		networking.registerClass(PlayerSkin.class, this);
 	}
 
 	@Override
@@ -71,6 +73,9 @@ public class GrynAddon extends Addon{
 				this.otherPlayers.put(playerPosition.playerID, otherPlayer);
 				this.world.addToLayer(2, otherPlayer);
 			}
+		}else if(object instanceof PlayerSkin) {
+			PlayerSkin playerSkin = (PlayerSkin) object;
+			otherPlayers.get(playerSkin.playerID).setTextureID(playerSkin.textureID);
 		}
 	}	
 }

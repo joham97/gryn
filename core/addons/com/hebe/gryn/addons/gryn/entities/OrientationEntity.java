@@ -36,4 +36,10 @@ public class OrientationEntity extends AnimatedEntity {
 		return singleHeight;
 	}
 	 
+	 @Override
+	public void setTextureID(int textureID) {
+		super.setTextureID(textureID);
+		singleHeight = TextureHandler.get(this.textureID).getHeight() / 4;
+	}
+	 
 }

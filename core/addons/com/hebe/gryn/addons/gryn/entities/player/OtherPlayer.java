@@ -16,4 +16,6 @@ public class OtherPlayer extends OrientationEntity {
 		this.orientation = pos.orientation;
 	}
 	
+	
+	
 }

@@ -15,7 +15,7 @@ public class Player extends OrientationEntity {
 	protected int KEY_RIGHT = Keys.D;
 	
 	protected World world;
-	
+		
 	public Player(float x, float y, int textureID, World world) {
 		super(x, y, textureID);
 		this.world = world;

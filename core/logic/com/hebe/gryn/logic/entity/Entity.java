@@ -41,6 +41,10 @@ public class Entity implements Comparable<Entity> {
 		return this.y;
 	}
 	
+	public void setTextureID(int textureID) {
+		this.textureID = textureID;
+	}
+	
 	@Override
 	public int compareTo(Entity other) {
 		return Float.compare(other.y - other.offsetY, this.y - this.offsetY);

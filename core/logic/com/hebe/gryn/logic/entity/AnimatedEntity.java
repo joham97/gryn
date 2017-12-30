@@ -30,4 +30,11 @@ public class AnimatedEntity extends Entity{
 		((AnimatedTexture)TextureHandler.get(this.textureID)).draw(batch, this.x - this.offsetX, this.y - this.offsetY, this.percent);
 	}
 	
+	@Override
+	public void setTextureID(int textureID) {
+		super.setTextureID(textureID);
+		this.time = ((AnimatedTexture)TextureHandler.get(textureID)).getTime();
+		this.countImages = ((AnimatedTexture)TextureHandler.get(textureID)).getCountImages();
+	}
+	
 }

@@ -18,20 +18,30 @@ public enum GrynAddonTextures {
 	FLOWER5("entities/flowers/flower5.png"),
 	FLOWER6("entities/flowers/flower6.png"),
 	
-	CHILLI("npcs/chilli.png", 4, 0.6f),	
-	GRYN("npcs/gryn.png", 4, 0.6f);
+	GRYN("npcs/gryn.png", 4, 0.6f, 1),
+	CHILLI("npcs/chilli.png", 4, 0.6f, 2);
 
 	private int textureID;
+	private int skinID;
 
 	GrynAddonTextures(String path) {
 		this.textureID = TextureHandler.put(path);
 	}
-	
+
 	GrynAddonTextures(String path, int countImages, float time) {
 		this.textureID = TextureHandler.put(path, countImages, time);
 	}
 
+	GrynAddonTextures(String path, int countImages, float time, int skinID) {
+		this.textureID = TextureHandler.put(path, countImages, time);
+		this.skinID = skinID;
+	}
+	
 	public int getTextureID() {
 		return this.textureID;
+	}
+	
+	public int getSkinID() {
+		return skinID;
 	}
 }
