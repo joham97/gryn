@@ -95,51 +95,52 @@ function draw() {
 	text(floor(frameRate()), 0, 12);
 }
 
-function getCamTilePos(){
+function getCamTilePos() {
 	let camTileX = floor(camX / 32);
 	let camTileY = floor(camY / 32);
 
-	return {x: camTileX, y: camTileY};
+	return { x: camTileX, y: camTileY };
 }
 
-function getSelectedPos(){
+function getSelectedPos() {
 	let camTile = getCamTilePos();
 
 	let mouseTileX = floor(mouseX / 32) + camTile.x;
 	let mouseTileY = floor((height - mouseY) / 32) + camTile.y;
 
-	return {x: mouseTileX, y: mouseTileY};
+	return { x: mouseTileX, y: mouseTileY };
 }
 
-function mouseClicked(){
+function mouseClicked() {
 	let pos = getSelectedPos();
 	setTile(pos.x, pos.y, selectedTile);
 }
 
-function mouseDragged(){
+function mouseDragged() {
 	let pos = getSelectedPos();
 	setTile(pos.x, pos.y, selectedTile);
 }
 
-function setTile(x, y, tile){
-	if(x >= gridW){
-		for(let i = gridW; i <= x; i++){
+function setTile(x, y, tile) {
+	if (y >= gridH) {
+		for (let i = 0; i < gridW; i++) {
+			for (let j = gridH; j <= y; j++) {
+				grid[i][j] = 1;
+			}
+		}
+		gridH = y + 1;
+	}
+
+	if (x >= gridW) {
+		for (let i = gridW; i <= x; i++) {
 			grid[i] = [];
-			for(let j = 0; j < gridH; j++){
+			for (let j = 0; j < gridH; j++) {
 				grid[i][j] = 1;
 			}
 		}
-		gridW = x;
+		gridW = x + 1;
 	}
-	
-	if(y >= gridH){
-		for(let i = 0; i < gridW; i++){
-			for(let j = gridH; j <= y; j++){
-				grid[i][j] = 1;
-			}
-		}
-		gridW = x;
-	}
+
 	grid[x][y] = tile;
 }
 
@@ -156,14 +157,14 @@ function keyPressed() {
 }
 
 function mouseWheel(event) {
-	if(event.delta > 0){
+	if (event.delta > 0) {
 		selectedTile++;
-		if(selectedTile >= imgs.length){
+		if (selectedTile >= imgs.length) {
 			selectedTile = 1;
 		}
-	}else{
+	} else {
 		selectedTile--;
-		if(selectedTile <= 0){
+		if (selectedTile <= 0) {
 			selectedTile = imgs.length - 1;
 		}
 	}
@@ -175,21 +176,58 @@ function newFile() {
 }
 
 function importClassDiagramFromJSON(result) {
-	gridW = 0;
-	for (let thingy of result.split("\n")[0].split(",")) {
-		this.grid[gridW] = [];
-		gridW++;
-	}
-
-	gridH = 0;
+	this.grid = [];
+	this.gridW = 0;
+	this.gridH = 0;
+	let y = 0;
 	for (let line of result.split("\n")) {
 		let x = 0;
 		for (let thingy of line.split(",")) {
-			this.grid[x][gridH] = Number.parseInt(thingy);
+			this.gridW = this.Math.max(x + 1, gridW);
+			if (grid.length < gridW) {
+				grid[x] = [];
+			}
+			this.grid[x][y] = Number.parseInt(thingy);
 			x++;
 		}
-		gridH++;
+		y++;
 	}
+	this.gridH = y;
+
+	console.log(grid);
 
 	this.loaded = true;
+}
+
+function exportGrid() {
+	var textToWrite = "";
+
+	for(let y = 0; y < gridH; y++){
+		for(let x = 0; x < gridW; x++){
+			textToWrite += grid[x][y] + ",";
+		}
+		textToWrite = textToWrite.substring(0, textToWrite.length - 1);
+		textToWrite += "\n";
+	}
+	textToWrite = textToWrite.substring(0, textToWrite.length - 1);
+
+	var textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+	var fileNameToSaveAs = "world.txt";
+	var downloadLink = document.createElement("a");
+	downloadLink.download = fileNameToSaveAs;
+	downloadLink.innerHTML = "Download File";
+	if (window.webkitURL != null) {
+		// Chrome allows the link to be clicked
+		// without actually adding it to the DOM.
+		downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+	}
+	else {
+		// Firefox requires the link to be added to the DOM
+		// before it can be clicked.
+		downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+		downloadLink.style.display = "none";
+		document.body.appendChild(downloadLink);
+	}
+
+	downloadLink.click();
 }
