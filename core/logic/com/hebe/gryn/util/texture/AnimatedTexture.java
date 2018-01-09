@@ -34,6 +34,5 @@ public class AnimatedTexture extends Texture {
 
 	public int getCountImages() {
 		return countImages;
-	}
-	
+	}	
 }

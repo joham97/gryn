@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.hebe.gryn.addons.gryn.entities.player.OtherPlayer;
 import com.hebe.gryn.addons.gryn.entities.player.Player;
-import com.hebe.gryn.addons.gryn.world.HeBeTestWorld;
+import com.hebe.gryn.addons.gryn.world.cave.CaveGenerator;
 import com.hebe.gryn.addons.root.Addon;
 import com.hebe.gryn.logic.World;
 import com.hebe.gryn.networking.NetworkingAddonHelper;
@@ -33,9 +33,10 @@ public class GrynAddon extends Addon{
 	@Override
 	public void afterWorldInitialization(World world) {
 		this.world = world;
-		new HeBeTestWorld(world);
+		//new HeBeTestWorld(world);
+		new CaveGenerator(world);
 		
-		this.me = new Player(64, 64, GrynAddonTextures.GRYN.getTextureID(), world);
+		this.me = new Player(120, 120, GrynAddonTextures.GRYN.getTextureID(), world);
 		this.world.addToLayer(2, this.me);
 	}
 

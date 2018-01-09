@@ -25,22 +25,30 @@ public class Player extends OrientationEntity {
 	@Override
 	public void update(float delta) {
 		super.update(delta);
+		float tempX = this.x;
+		float tempY = this.y;
 		if(Gdx.input.isKeyPressed(this.KEY_UP)) {
 			this.orientation = Orientation.UP;
-			this.y += delta * 48;
+			tempY += delta * 48;
 		}
 		if(Gdx.input.isKeyPressed(this.KEY_DOWN)) {
 			this.orientation = Orientation.DOWN;
-			this.y -= delta * 48;
+			tempY -= delta * 48;
 		}
 		if(Gdx.input.isKeyPressed(this.KEY_LEFT)) {
 			this.orientation = Orientation.LEFT;
-			this.x -= delta * 48;
+			tempX -= delta * 48;
 		}
 		if(Gdx.input.isKeyPressed(this.KEY_RIGHT)) {
 			this.orientation = Orientation.RIGHT;
-			this.x += delta * 48;
+			tempX += delta * 48;
 		}
+		if(this.world.movementValid(this.x, this.y, tempX, tempY)) {
+			this.x = tempX;
+			this.y = tempY;
+		}
+		
+		
 		this.world.setCam(this.x, this.y);
 	}
 	

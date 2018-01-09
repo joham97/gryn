@@ -9,12 +9,11 @@ import com.hebe.gryn.util.texture.TextureHandler;
 public class OrientationEntity extends AnimatedEntity {
 	
 	protected Orientation orientation;
-	protected int singleHeight;
 
 	public OrientationEntity(float x, float y, int textureID) {
 		super(x, y, textureID);
 		orientation = Orientation.DOWN;
-		singleHeight = TextureHandler.get(this.textureID).getHeight() / 4;
+		this.height = TextureHandler.get(this.textureID).getHeight() / 4;
 	}
 	
 	 @Override
@@ -22,24 +21,20 @@ public class OrientationEntity extends AnimatedEntity {
 		AnimatedTexture animText = ((AnimatedTexture)TextureHandler.get(this.textureID));
 		int drawY = 0;
 		if(orientation == Orientation.LEFT){
-			drawY = singleHeight;
+			drawY = this.height;
 		}else if(orientation == Orientation.RIGHT){
-			drawY = singleHeight*2;
+			drawY = this.height*2;
 		}else if(orientation == Orientation.UP){
-			drawY = singleHeight*3;
+			drawY = this.height*3;
 		}
 		
-		animText.draw(batch, this.x - this.offsetX, this.y - this.offsetY, this.percent, 0, drawY, animText.getSingleWidth(), singleHeight);
+		animText.draw(batch, this.x - this.offsetX, this.y - this.offsetY, this.percent, 0, drawY, animText.getSingleWidth(), this.height);
 	}
 	
-	 public int getSingleHeight() {
-		return singleHeight;
-	}
-	 
 	 @Override
 	public void setTextureID(int textureID) {
 		super.setTextureID(textureID);
-		singleHeight = TextureHandler.get(this.textureID).getHeight() / 4;
+		this.height = TextureHandler.get(this.textureID).getHeight() / 4;
 	}
 	 
 }

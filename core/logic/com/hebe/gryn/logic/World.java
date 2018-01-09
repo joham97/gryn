@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.hebe.gryn.Gryn;
 import com.hebe.gryn.logic.entity.Entity;
 import com.hebe.gryn.logic.entity.Layer;
 
@@ -23,7 +24,7 @@ public class World {
 		while(layer >= this.layers.size()) {
 			this.layers.add(new Layer(false));
 		}
-		synchronized (this.layers.get(layer)) {
+		synchronized (this.layers) {
 			this.layers.get(layer).add(entity);
 		}		
 	}
@@ -38,8 +39,8 @@ public class World {
 	}
 	
 	public void update(float delta) {
-		for (Layer layer : this.layers) {
-			synchronized (layer) {
+		synchronized (this.layers) {
+			for (Layer layer : this.layers) {
 				for (Entity entity : layer) {
 					entity.update(delta);
 				}
@@ -49,13 +50,22 @@ public class World {
 	}
 
 	public void render(SpriteBatch batch) {	
-		for (Layer layer : this.layers) {
-			synchronized (layer) {
-				for (Entity entity : layer) {				
-					entity.draw(batch);
+		synchronized (this.layers) {
+			for (Layer layer : this.layers) {
+				for (Entity entity : layer) {
+					if(isVisible(entity)) {
+						entity.draw(batch);
+					}
 				}
 			}
 		}
+	}
+	
+	public boolean isVisible(Entity entity){
+		return this.camX - Gryn.GAME_WIDTH < entity.getX() && 
+				entity.getX() < this.camX + Gryn.GAME_WIDTH &&
+				this.camY - Gryn.GAME_HEIGHT < entity.getY() &&
+				entity.getY() < this.camY + Gryn.GAME_HEIGHT;
 	}
 	
 	public void setCam(float x, float y) {
@@ -69,6 +79,17 @@ public class World {
 	
 	public float getCamY() {
 		return this.camY;
+	}
+
+	public boolean movementValid(float x, float y, float tempX, float tempY) {
+		for (Layer layer : this.layers) {
+			for (Entity entity : layer) {
+				if(isVisible(entity) && entity.hasCollision() && entity.getX() < tempX && entity.getY() < tempY && tempX < entity.getX() + entity.getWidth() && tempY < entity.getY() + entity.getHeight()) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 }

@@ -8,6 +8,7 @@ public enum GrynAddonTextures {
 	SAND("tiles/sandtile.png"), 
 	WATER("tiles/watertile.png"), 
 	ASPHALT("tiles/asphalt.png"),
+	CAVE("tiles/cave.png"),
 	
 	CULM("entities/grass.png", 7, 0.8f),	
 	TREE("entities/tree.png"),	

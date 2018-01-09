@@ -76,7 +76,7 @@ public class GameScreen implements Screen{
 		this.viewport.apply();
 
 		// Clean Display
-		Gdx.gl.glClearColor(1, 0, 1, 0);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// Attach Viewport to SpriteBatch and Shaperenderer

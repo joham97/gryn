@@ -9,6 +9,9 @@ public class Entity implements Comparable<Entity> {
 	protected float y;
 	protected float offsetX;
 	protected float offsetY;
+	protected int width, height;
+	
+	protected boolean collision;
 
 	protected int textureID;
 
@@ -18,6 +21,9 @@ public class Entity implements Comparable<Entity> {
 		this.offsetX = 0.0f;
 		this.offsetY = 0.0f;
 		this.textureID = textureID;
+		this.width = TextureHandler.get(this.textureID).getWidth();
+		this.height = TextureHandler.get(this.textureID).getHeight();
+		this.collision = false;
 	}
 
 	public void update(float delta) {
@@ -39,6 +45,22 @@ public class Entity implements Comparable<Entity> {
 	
 	public float getY() {
 		return this.y;
+	}
+		
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
+	
+	public boolean hasCollision() {
+		return collision;
 	}
 	
 	public void setTextureID(int textureID) {

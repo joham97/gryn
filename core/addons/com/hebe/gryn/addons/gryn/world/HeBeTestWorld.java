@@ -60,7 +60,7 @@ public class HeBeTestWorld {
 							}							
 						}
 					} else if (tile.equals("2")) {
-						this.world.addToLayer(0, new Tile(x, y, GrynAddonTextures.WATER.getTextureID()));
+						this.world.addToLayer(0, new Tile(x, y, GrynAddonTextures.WATER.getTextureID(), true));
 					} else if (tile.equals("3")) {
 						Tile newTile = new Tile(x, y, GrynAddonTextures.SAND.getTextureID());
 						newTile.setOffset(6, 6);
