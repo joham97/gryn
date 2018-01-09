@@ -50,7 +50,7 @@ public class Grid extends Array2D {
      * @param y row index.
      * @return value stored in the chosen cell. */
     public float get(final int x, final int y) {
-        return grid[toIndex(x, y)];
+    	return grid[toIndex(x, y)];
     }
 
     /** @param x column index.

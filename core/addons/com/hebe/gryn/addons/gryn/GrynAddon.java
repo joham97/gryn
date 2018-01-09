@@ -38,6 +38,7 @@ public class GrynAddon extends Addon{
 		
 		this.me = new Player(120, 120, GrynAddonTextures.GRYN.getTextureID(), world);
 		this.world.addToLayer(2, this.me);
+		this.world.setLayerSorting(2, true);
 	}
 
 	@Override

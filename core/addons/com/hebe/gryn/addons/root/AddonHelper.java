@@ -12,6 +12,7 @@ import com.hebe.gryn.screens.GameScreen;
 public class AddonHelper implements Lifecycle {
 	
 	public static final Addon[] addonsArray = {
+			//new CaveTestAddon(),
 			new GrynAddon(),
 			new DevAddon()
 	};

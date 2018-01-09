@@ -35,6 +35,7 @@ public class Generators {
      * in which case {@link #rollSeed(int)} method should be used instead. */
     public static final int DEFAULT_SEED_BIT_LENGTH = 16;
 
+    public static long SEED = 0;
     private static Random RANDOM;
     private static Calculator CALCULATOR;
 
@@ -45,7 +46,7 @@ public class Generators {
      *         {@link #setRandom(Random)}. */
     public static Random getRandom() {
         if (RANDOM == null) {
-            RANDOM = new Random();
+            RANDOM = new Random(SEED);
         }
         return RANDOM;
     }

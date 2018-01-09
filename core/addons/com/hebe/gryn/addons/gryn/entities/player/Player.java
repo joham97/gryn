@@ -46,8 +46,11 @@ public class Player extends OrientationEntity {
 		if(this.world.movementValid(this.x, this.y, tempX, tempY)) {
 			this.x = tempX;
 			this.y = tempY;
+		}else if(this.world.movementValid(this.x, this.y, this.x, tempY)) {
+			this.y = tempY;
+		}else if(this.world.movementValid(this.x, this.y, tempX, this.y)) {
+			this.x = tempX;
 		}
-		
 		
 		this.world.setCam(this.x, this.y);
 	}

@@ -92,6 +92,8 @@ public class ConditionTile extends Tile {
 	private List<Integer> tX;
 	private List<Integer> tY;
 	
+	private boolean center, empty;
+	
 	public ConditionTile(int x, int y, int textureID) {
 		super(x, y, textureID);	
 		this.tX = new ArrayList<Integer>();
@@ -113,6 +115,7 @@ public class ConditionTile extends Tile {
 		
 		if(tX.isEmpty()) {
 			this.collision = false;
+			this.empty = true;
 		}
 	}
 	
@@ -136,6 +139,8 @@ public class ConditionTile extends Tile {
 		}
 		if(index != 4) {
 			this.collision = true;
+		}else {
+			this.center = true;
 		}
 	}
 
@@ -146,5 +151,12 @@ public class ConditionTile extends Tile {
 		}
 	}
 
+	public boolean isCenter() {
+		return center;
+	}
+	
+	public boolean isEmpty() {
+		return empty;
+	}
 	
 }
